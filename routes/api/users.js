@@ -135,4 +135,19 @@ router.post('/register', (req, res)=>{
  });
 
 
+ //Get all Users
+ router.get('/users_profiles', passport.authenticate('jwt', {
+    session: false
+    
+}), async(req, res)=>{
+    console.log(req.body);
+    try {
+        const iss = await User.find();
+        res.json(iss);
+    } catch (error) {
+        res.json({meg:err});
+    }
+});
+
+
  module.exports= router;
