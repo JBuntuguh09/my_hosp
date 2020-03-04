@@ -66,12 +66,45 @@ router.post("/new_issue", passport.authenticate('jwt', {
 
 router.get('/issues', passport.authenticate('jwt', {
     session: false
-}), (req, res)=>{
-   return res.json({
-      issue : req.issues
-   })
+}), async (req, res)=>{
+    console.log(req.body);
+    
+   try {
+       const iss = await Issue.find();
+       res.json(iss);
+   } catch (error) {
+       res.json({meg:err});
+   }
 });
 
+
+//Get User Issues
+router.get('/issues/:username', passport.authenticate('jwt', {
+    session: false
+}), async (req, res)=>{
+    
+   try {
+       const iss = await Issue.find({username:req.params.username});
+       res.json(iss);
+   } catch (error) {
+       res.json({meg:err});
+   }
+});
+
+
+
+//Update User Issues
+router.get('/issuesById/:id', passport.authenticate('jwt', {
+    session: false
+}), async (req, res)=>{
+    console.log(req.body);
+   try {
+       const iss = await Issue.find({id:req.params._id});
+       res.json(iss);
+   } catch (error) {
+       res.json({meg:err});
+   }
+});
 
 
 module.exports= router;
